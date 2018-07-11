@@ -1,10 +1,4 @@
 '''
-2-D Convolutional Neural Networks using TensorFlow library for Kaggle competition.
-
-Target competition on Kaggle: https://www.kaggle.com/c/digit-recognizer
-Author: Taegyun Jeon
-Project: https://github.com/tgjeon/cnnForMnist
-
 Train instances: 42000 number images with vector format (1 number = 1 x 748)
 Test instances: 20000 number images with vector format  (1 number = 1 x 748)
 '''

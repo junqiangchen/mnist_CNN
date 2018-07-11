@@ -1,10 +1,4 @@
 '''
-2-D Convolutional Neural Networks using TensorFlow library for Kaggle competition.
-
-Target competition on Kaggle: https://www.kaggle.com/c/digit-recognizer
-Author: Taegyun Jeon
-Project: https://github.com/tgjeon/cnnForMnist
-
 Train instances: 42000 number images with vector format (1 number = 1 x 748)
 Test instances: 20000 number images with vector format  (1 number = 1 x 748)
 '''
@@ -133,8 +127,8 @@ def predictint(test_images):
                                                                                    32))  # 5x5x1 conv, 32 outputs,image shape[28,28]->[14,14]
     W2 = tf.get_variable("W2", shape=[5, 5, 32, 64], initializer=weight_xavier_init(5 * 5 * 32,
                                                                                     64))  # 5x5x32 conv, 64 outputs,image shape[14,14]->[7,7]
-    W3_FC1 = tf.get_variable("W3_FC1", shape=[64 * 7 * 7, 1024],
-                             initializer=weight_xavier_init(64 * 7 * 7, 1024))  # FC: 64x7x7 inputs, 1024 outputs
+    W3_FC1 = tf.get_variable("W3_FC1", shape=[64, 1024],
+                             initializer=weight_xavier_init(64, 1024))  # FC: 64x7x7 inputs, 1024 outputs
     W4_FC2 = tf.get_variable("W4_FC2", shape=[1024, image_labels],
                              initializer=weight_xavier_init(1024, image_labels))  # FC: 1024 inputs, 10 outputs (labels)
 
@@ -158,8 +152,10 @@ def predictint(test_images):
     l2_conv = tf.nn.relu(conv2d(l1_drop, W2) + B2)  # shape=(?, 14, 14, 64)
     l2_pool = max_pool_2x2(l2_conv)  # shape=(?, 7, 7, 64)
     l2_drop = tf.nn.dropout(l2_pool, drop_conv)
-    # Layer 3 - FC1
-    l3_flat = tf.reshape(l2_drop, [-1, W3_FC1.get_shape().as_list()[0]])  # shape=(?, 1024)
+	
+	gap=tf.reduce_mean(l2_drop,(1,2))
+	# Layer 3 - FC1
+	l3_flat = tf.reshape(gap, [-1,64])  # shape=(?, 1024)
     l3_feed = tf.nn.relu(tf.matmul(l3_flat, W3_FC1) + B3_FC1)
     l3_drop = tf.nn.dropout(l3_feed, drop_hidden)
     # Layer 4 - FC2
