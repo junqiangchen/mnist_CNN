@@ -2,7 +2,7 @@
 > This is an example of MNIST Classification
 
 ## How to Use
-this is an introduction of how to learn deep learning
+this is an introduction of how to learn deep learning,just run the python script.
 
 ## Contact
 * https://github.com/junqiangchen
